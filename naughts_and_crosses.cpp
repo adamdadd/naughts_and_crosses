@@ -18,11 +18,15 @@ int main() {
     while (isloss()) {
         draw_cross();
         if (isloss() == false) {
+            cout << "Crosses Wins!\n";
             break;
         }
         draw_naught();
+        if (isloss() == false) {
+            cout << "Naughts Wins!\n";
+            break;
+        }
     }
-    cout << "Winner!\n";
     return 0;
 }
 
