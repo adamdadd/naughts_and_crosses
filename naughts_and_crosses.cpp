@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include <string>
 #include <vector> // C++ array behaviour shocking without this.
 
@@ -19,11 +20,13 @@ int main() {
     draw_board(squares);
 
     while (isloss(squares)) {
+        cout << "Turn: CROSSES\n";
         draw_shape(cross, squares);
         if (!isloss(squares)) { // equivalent to if isloss == false
             cout << "Crosses Wins!\n";
             break;
         }
+        cout << "Turn: NAUGHTS\n";
         draw_shape(naught,squares);
         if (!isloss(squares)) { // if not isloss
             cout << "Naughts Wins!\n";
@@ -45,8 +48,26 @@ void draw_board(vector<string> board_squares) {
 
 vector<string> draw_shape(string shape, vector<string> &board_squares) {
     int square_choice;
-    cout << "Pick a square: ";
-    cin >> square_choice;
+    bool valid;
+
+    do
+    {
+        cout << "Pick a square: ";
+        cin >> square_choice;
+        if (cin.good())
+        {
+            //everything went well, we'll get out of the loop and return the value
+            valid = true;
+        }
+        else
+        {
+            // reset the buffer's state to good
+            cin.clear();
+            // empty buffer
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout << "ERROR: That's not a number!" << endl;
+        }
+    } while (!valid);
 
     switch(square_choice) {
         case 1:
@@ -95,7 +116,8 @@ vector<string> draw_shape(string shape, vector<string> &board_squares) {
             return board_squares;
             break;
         default:
-            draw_board(board_squares);
+            cout << "ERROR: Not on the board, try again!\n";
+            draw_shape(shape,board_squares);
             return board_squares;
             break;
     }
