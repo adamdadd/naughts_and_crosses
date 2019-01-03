@@ -4,26 +4,30 @@
 
 
 void draw_board(std::vector<std::string> board_squares);
+bool check_schoice(int choice, std::vector<std::string> board_squares, std::string shape);
 std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> &board_squares);
 bool isloss(std::vector<std::string> &board_squares);
-bool check_schoice(int choice, std::vector<std::string> board_squares, std::string shape);
+bool isdraw(int count, std::vector<std::string> board_squares);
 
 
 int main() {
     std::vector<std::string> squares = {"[1]","[2]","[3]","[4]","[5]","[6]","[7]","[8]","[9]"};
     const std::string cross = "[X]";
     const std::string naught = "[O]";
+    int counter = 0;
 
     std::cout << "Let's play some naughts and crosses shall we?\n";
     draw_board(squares);
 
-    while (isloss(squares)) {
+    while (isloss(squares)) { // while not a winning move
         std::cout << "Turn: CROSSES\n";
         draw_shape(cross, squares);
         draw_board(squares);
-        if (!isloss(squares)) { // equivalent to if isloss == false
+        if (!isloss(squares)) { // check for winning move
             std::cout << "Crosses Wins!\n";
             break;
+        } else if (isdraw(counter, squares)) {
+                break;
         }
         std::cout << "Turn: NAUGHTS\n";
         draw_shape(naught,squares);
@@ -31,8 +35,10 @@ int main() {
         if (!isloss(squares)) { // if not isloss
             std::cout << "Naughts Wins!\n";
             break;
+        } else if (isdraw(counter, squares)) {
+                break;
+            }
         }
-    }
     return 0;
 }
 
@@ -197,4 +203,16 @@ bool isloss(std::vector<std::string> &board_squares) { // Possible winning moves
     }
 }
 
-
+bool isdraw(int count, std::vector<std::string> board_squares) {
+        for (int i=0; i<9; i = i+1) {
+            if (((board_squares[i] == "[X]") || (board_squares[i] == "[O]"))) {
+                count = count + 1;
+            }
+        }
+        if ((count == 9) && (isloss(board_squares))) {
+            std::cout << "\nDraw!\n";
+            return true;
+        } else {
+            return false;
+        }
+}
