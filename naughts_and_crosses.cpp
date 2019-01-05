@@ -1,13 +1,16 @@
 #include <iostream>
 #include <limits>
+#include <random>
 #include <vector> // C++ array behaviour shocking without this.
 
 
+// Function Declarations
 void draw_board(std::vector<std::string> board_squares);
 bool check_schoice(int choice, std::vector<std::string> board_squares, std::string shape);
-std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> &board_squares);
+std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> &board_squares, int &run_number);
 bool isloss(std::vector<std::string> &board_squares);
 bool isdraw(int count, std::vector<std::string> board_squares);
+int random_move();
 
 
 int main() {
@@ -15,25 +18,26 @@ int main() {
     const std::string cross = "[X]";
     const std::string naught = "[O]";
     int counter = 0;
+    int run = 1;
 
     std::cout << "Let's play some naughts and crosses shall we?\n";
     draw_board(squares);
 
     while (isloss(squares)) { // while not a winning move
         std::cout << "Turn: CROSSES\n";
-        draw_shape(cross, squares);
+        draw_shape(cross, squares, run);
         draw_board(squares);
         if (!isloss(squares)) { // check for winning move
-            std::cout << "Crosses Wins!\n";
+            std::cout << "\nCrosses Wins!\n";
             break;
         } else if (isdraw(counter, squares)) {
                 break;
         }
         std::cout << "Turn: NAUGHTS\n";
-        draw_shape(naught,squares);
+        draw_shape(naught,squares, run);
         draw_board(squares);
         if (!isloss(squares)) { // if not isloss
-            std::cout << "Naughts Wins!\n";
+            std::cout << "\nNaughts Wins!\n";
             break;
         } else if (isdraw(counter, squares)) {
                 break;
@@ -65,15 +69,20 @@ bool check_schoice(int choice, std::vector<std::string> board_squares, std::stri
 }
 
 
-std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> &board_squares) {
+std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> &board_squares, int &run_number) {
     int square_choice;
     bool valid;
-
 
     do
     {
         std::cout << "Pick a square: ";
-        std::cin >> square_choice;
+        if (run_number == 1) {
+            std::cout << "\n";
+            square_choice = random_move();
+            run_number = run_number + 1;
+        } else {
+            std::cin >> square_choice;
+        }
         if (std::cin.good()) // If square_choice is a number
         {
             //everything went well, we'll get out of the loop and return the value
@@ -89,14 +98,14 @@ std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> 
         }
     } while (!valid);
 
-
+// Now for the enter validation and draw for each choice
     switch(square_choice) {
         case 1:
             if (check_schoice(0, board_squares, shape)) {
                 board_squares[0] = shape;
                 return board_squares;
             } else {
-                draw_shape(shape, board_squares);
+                draw_shape(shape, board_squares, run_number);
                 return board_squares;
             }
             break;
@@ -105,7 +114,7 @@ std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> 
                 board_squares[1] = shape;
                 return board_squares;
             } else {
-                draw_shape(shape, board_squares);
+                draw_shape(shape, board_squares,run_number);
                 return board_squares;
             }
             break;
@@ -114,7 +123,7 @@ std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> 
                 board_squares[2] = shape;
                 return board_squares;
             } else {
-                draw_shape(shape, board_squares);
+                draw_shape(shape, board_squares, run_number);
                 return board_squares;
             }
             break;
@@ -123,7 +132,7 @@ std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> 
                 board_squares[3] = shape;
                 return board_squares;
             } else {
-                draw_shape(shape, board_squares);
+                draw_shape(shape, board_squares, run_number);
                 return board_squares;
             }
             break;
@@ -132,7 +141,7 @@ std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> 
                 board_squares[4] = shape;
                 return board_squares;
             } else {
-                draw_shape(shape, board_squares);
+                draw_shape(shape, board_squares, run_number);
                 return board_squares;
             }
             break;
@@ -141,7 +150,7 @@ std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> 
                 board_squares[5] = shape;
                 return board_squares;
             } else {
-                draw_shape(shape, board_squares);
+                draw_shape(shape, board_squares, run_number);
                 return board_squares;
             }
             break;
@@ -150,7 +159,7 @@ std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> 
                 board_squares[6] = shape;
                 return board_squares;
             } else {
-                draw_shape(shape, board_squares);
+                draw_shape(shape, board_squares, run_number);
                 return board_squares;
             }
             break;
@@ -159,7 +168,7 @@ std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> 
                 board_squares[7] = shape;
                 return board_squares;
             } else {
-                draw_shape(shape, board_squares);
+                draw_shape(shape, board_squares, run_number);
                 return board_squares;
             }
             break;
@@ -168,13 +177,13 @@ std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> 
                 board_squares[8] = shape;
                 return board_squares;
             } else {
-                draw_shape(shape, board_squares);
+                draw_shape(shape, board_squares, run_number);
                 return board_squares;
             }
             break;
         default: // If anything other than a number from 1 to 9 is entered.
             std::cout << "ERROR: Not on the board, try again!\n";
-            draw_shape(shape,board_squares);
+            draw_shape(shape,board_squares, run_number);
             return board_squares;
             break;
     }
@@ -203,6 +212,7 @@ bool isloss(std::vector<std::string> &board_squares) { // Possible winning moves
     }
 }
 
+
 bool isdraw(int count, std::vector<std::string> board_squares) {
         for (int i=0; i<9; i = i+1) {
             if (((board_squares[i] == "[X]") || (board_squares[i] == "[O]"))) {
@@ -215,4 +225,14 @@ bool isdraw(int count, std::vector<std::string> board_squares) {
         } else {
             return false;
         }
+}
+
+//TODO: Use this to add a random starting move.
+int random_move() {
+    int n = 0;
+    std::random_device rd;  //Will be used to obtain a seed for the random number engine
+    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+    std::uniform_int_distribution<> dis(0, 9);
+    n = dis(gen);
+    return n;
 }
