@@ -58,7 +58,7 @@ void play_game(std::vector<std::string> &board_squares, int counter, int run) {
 
 
 void draw_quantum_board(std::vector<std::vector<std::string>> qboard) {// FOLLOWING BLOCK IS DISPLAY FUNCTION FOR QUANTUM BOARD
-// Block 1
+// Block 1 
     for (int i= 0; i <3; i = i+1) { // Rows
         for (int j = 0; j < 3; j = j+1) { // Columns
             std::cout << qboard[i][j];
