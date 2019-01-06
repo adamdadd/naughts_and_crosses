@@ -5,6 +5,8 @@
 
 
 // Function Declarations
+void play_game(std::vector<std::string> &board_square, int counter, int run);
+void draw_quantum_board(std::vector<std::vector<std::string>> qboard);
 void draw_board(std::vector<std::string> board_squares);
 bool check_schoice(int choice, std::vector<std::string> board_squares, std::string shape);
 std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> &board_squares, int &run_number);
@@ -15,37 +17,112 @@ int random_move();
 
 int main() {
     std::vector<std::string> squares = {"[1]","[2]","[3]","[4]","[5]","[6]","[7]","[8]","[9]"};
-    const std::string cross = "[X]";
-    const std::string naught = "[O]";
+    std::vector<std::vector<std::string>> qsquares = {squares, squares, squares, squares, squares, squares, squares, squares, squares};
     int counter = 0;
     int run = 1;
 
-    std::cout << "Let's play some naughts and crosses shall we?\n";
+    draw_quantum_board(qsquares);
+    std::cout << "\n     NAUGHTS AND CROSSES\n\n";
     draw_board(squares);
+    play_game(squares, counter, run);
 
-    while (isloss(squares)) { // while not a winning move
-        std::cout << "Turn: CROSSES\n";
-        draw_shape(cross, squares, run);
-        draw_board(squares);
-        if (!isloss(squares)) { // check for winning move
-            std::cout << "\nCrosses Wins!\n";
-            break;
-        } else if (isdraw(counter, squares)) {
-                break;
-        }
-        std::cout << "Turn: NAUGHTS\n";
-        draw_shape(naught,squares, run);
-        draw_board(squares);
-        if (!isloss(squares)) { // if not isloss
-            std::cout << "\nNaughts Wins!\n";
-            break;
-        } else if (isdraw(counter, squares)) {
-                break;
-            }
-        }
     return 0;
 }
 
+void play_game(std::vector<std::string> &board_squares, int counter, int run) {
+    const std::string cross = "[X]";
+    const std::string naught = "[O]";
+
+    while (isloss(board_squares)) { // while not a winning move
+        std::cout << "Turn: CROSSES\n";
+        draw_shape(cross, board_squares, run);
+        draw_board(board_squares);
+        if (!isloss(board_squares)) { // check for winning move
+            std::cout << "\nCrosses Wins!\n";
+            break;
+        } else if (isdraw(counter, board_squares)) {
+                break;
+        }
+        std::cout << "Turn: NAUGHTS\n";
+        draw_shape(naught,board_squares, run);
+        draw_board(board_squares);
+        if (!isloss(board_squares)) { // if not isloss
+            std::cout << "\nNaughts Wins!\n";
+            break;
+        } else if (isdraw(counter, board_squares)) {
+                break;
+            }
+        }
+}
+
+void draw_quantum_board(std::vector<std::vector<std::string>> qboard) {
+// FOLLOWING BLOCK IS DISPLAY FUNCTION FOR QUANTUM BOARD
+    for (int i= 0; i <3; i = i+1) { // Rows
+        for (int j = 0; j < 3; j = j+1) { // Columns
+            std::cout << qboard[i][j];
+        }
+        std::cout << " ";
+    }
+    std::cout << "\n";
+    for ( int k = 0; k < 3; k = k+1) {
+        for (int l = 3; l < 6; l = l+1){
+            std::cout << qboard[k][l];
+        }
+        std::cout << " ";
+    }
+    std::cout << "\n";
+    for ( int m = 0; m < 3; m = m+1) {
+        for (int n = 6; n < 9; n = n+1){
+            std::cout << qboard[m][n];
+        }
+        std::cout << " ";
+    }
+        std::cout << "\n\n";
+
+    for (int i= 3; i < 6; i = i+1) { // Rows
+        for (int j = 0; j < 3; j = j+1) { // Columns
+            std::cout << qboard[i][j];
+        }
+        std::cout << " ";
+    }
+    std::cout << "\n";
+    for ( int k = 3; k < 6; k = k+1) {
+        for (int l = 3; l < 6; l = l+1){
+            std::cout << qboard[k][l];
+        }
+        std::cout << " ";
+    }
+    std::cout << "\n";
+    for ( int m = 3; m < 6; m = m+1) {
+        for (int n = 6; n < 9; n = n+1){
+            std::cout << qboard[m][n];
+        }
+        std::cout << " ";
+    }
+        std::cout << "\n\n";
+
+    for (int i= 6; i < 9; i = i+1) { // Rows
+        for (int j = 0; j < 3; j = j+1) { // Columns
+            std::cout << qboard[i][j];
+        }
+        std::cout << " ";
+    }
+    std::cout << "\n";
+    for ( int k = 6; k < 9; k = k+1) {
+        for (int l = 3; l < 6; l = l+1){
+            std::cout << qboard[k][l];
+        }
+        std::cout << " ";
+    }
+    std::cout << "\n";
+    for ( int m = 6; m < 9; m = m+1) {
+        for (int n = 6; n < 9; n = n+1){
+            std::cout << qboard[m][n];
+        }
+        std::cout << " ";
+    }
+// END OF QUANTUM BOARD DISPLAY
+}
 
 void draw_board(std::vector<std::string> board_squares) {
     std::string draw_board;
