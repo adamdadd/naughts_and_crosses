@@ -1,3 +1,4 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/adamdadd/naughts_and_crosses/badge)](https://www.codefactor.io/repository/github/adamdadd/naughts_and_crosses)
 # naughts_and_crosses
 An easy to understand C++ "tic tac toe" game (but named properly ;D)
 
