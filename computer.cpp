@@ -2,7 +2,6 @@
 
 class Computer {
     public:
-
         int random_move() {
             int n = 0;
             std::random_device rd;  //Will be used to obtain a seed for the random number engine

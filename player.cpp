@@ -1,9 +1,7 @@
 #include "player.hpp"
 
 class Player {
-
     public:
-
         std::vector<std::string> draw_shape(std::string shape, std::vector<std::string> &board_squares, int &run_number) {
             int square_choice;
             bool valid;
@@ -130,5 +128,4 @@ class Player {
                return true;
            }
         }
-
 };

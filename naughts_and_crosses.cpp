@@ -5,9 +5,7 @@
 #include "naughts_and_crosses.hpp"
 
 class Game {
-
     public:
-
         void play_game(std::vector<std::string> &board_squares, int counter, int run) {
             const std::string cross = "[X]";
             const std::string naught = "[O]";
