@@ -22,5 +22,4 @@ class HumanPlayer: public Player {
                 return (int) square_choice;
             } while (!valid);
         }
-
 };
