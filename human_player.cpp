@@ -2,6 +2,10 @@
 
 class HumanPlayer: public Player {
     public:
+        HumanPlayer(std::string marker) : Player(shape) {
+            shape = marker;
+        };
+
         int get_move() {
             int square_choice;
             bool valid;

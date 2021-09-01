@@ -43,11 +43,9 @@ class Game {
 
     public:
         void play_game(std::vector<std::string> &board_squares, int counter) {
-            const std::string cross = "[X]";
-            const std::string naught = "[O]";
             while (isloss(board_squares)) { // while not a winning move
                 std::cout << "Turn: CROSSES\n";
-                computer.make_move(computer.get_move(), board_squares, cross);
+                computer.make_move(board_squares);
                 board.draw_board(board_squares);
                 if (!isloss(board_squares)) { // check for winning move
                     std::cout << "\nCrosses Wins!\n";
@@ -57,7 +55,7 @@ class Game {
                     break;
                 }
                 std::cout << "Turn: NAUGHTS\n";
-                human.make_move(human.get_move(), board_squares, naught);
+                human.make_move(board_squares);
                 board.draw_board(board_squares);
                 if (!isloss(board_squares)) { // check for winning move
                     std::cout << "\nNaughts Wins!\n";

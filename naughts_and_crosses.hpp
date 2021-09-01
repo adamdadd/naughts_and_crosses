@@ -5,8 +5,8 @@
 #include "computer_player.cpp"
 
 Board board;
-HumanPlayer human;
-ComputerPlayer computer;
+HumanPlayer human = HumanPlayer("[O]");
+ComputerPlayer computer = ComputerPlayer("[X]");
 
 void play_game(std::vector<std::string> &board_square, int counter);
 bool isloss(std::vector<std::string> &board_squares);
