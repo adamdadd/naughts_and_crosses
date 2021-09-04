@@ -12,9 +12,7 @@ class ComputerPlayer: public Player {
         }
 
     public:
-        ComputerPlayer(std::string marker) : Player(shape) {
-            shape = marker;
-        };
+        ComputerPlayer(std::string marker) : Player(marker) { };
 
         int get_move() {
             return random_move();

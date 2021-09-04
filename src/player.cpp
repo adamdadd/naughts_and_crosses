@@ -8,40 +8,26 @@ class Player {
     private:
         virtual int get_move() = 0;
 
-        bool is_free_square(int choice, std::vector<std::string> board_squares) {
-           if ((board_squares[choice] == "[X]") || (board_squares[choice] == "[O]")) {
-               std::cout << "\nAlready Occupied!\n";
-               std::cin.clear();
-               // empty buffer
-               std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-               return false;
-           } else {
-               return true;
-           }
-        };
-
     public:
-        Player(std::string marker) : shape(shape) {
-            shape = marker;
-        };
+        Player(std::string marker) : shape(marker) { };
 
         virtual ~Player() {};
 
-        std::vector<std::string> make_move(std::vector<std::string> &board_squares) {
+        std::string get_shape() { return shape; };
+
+        void make_move(Board& board) {
             // Now for the enter validation and draw for each choice
             int choice = get_move();
             if (0 < choice && choice < 10) {
-                if (is_free_square(choice-1, board_squares)) {
-                    board_squares[choice-1] = shape;
+                if (board.is_free_square(choice-1)) {
+                    board.set_marker(choice-1, shape);
                 } else {
-                    make_move(board_squares);
-                    return board_squares;
+                    make_move(board);
                 } 
-                return board_squares;
+                board.draw_board();
             } else {
                 std::cout << "ERROR: Not on the board, try again!\n";
-                make_move(board_squares);
-                return board_squares;
+                make_move(board);
             }
         };
 };

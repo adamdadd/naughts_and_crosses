@@ -1,15 +1,14 @@
+#include <iostream> 
+#include <limits>
+#include <random>
 #include <vector> 
 
 #include "board.cpp"
 #include "human_player.cpp"
 #include "computer_player.cpp"
 
-Board board;
-HumanPlayer human = HumanPlayer("[O]");
-ComputerPlayer computer = ComputerPlayer("[X]");
-
-void play_game(std::vector<std::string> &board_square, int counter);
-bool isloss(std::vector<std::string> &board_squares);
-bool isdraw(int count, std::vector<std::string> board_squares);
+void play_game(int counter);
+bool isloss();
+bool isdraw(int counter);
 
 
