@@ -17,8 +17,9 @@ class Game {
         }
 
         bool is_diag_win(int first_square) {
-            return board.board_squares[first_square] == board.board_squares[sizeof(board.board_squares) / 2] && 
-                board.board_squares[sizeof(board.board_squares) / 2] == board.board_squares[sizeof(board.board_squares) - first_square];
+            int max_idx = board.board_squares.size() - 1;
+            return board.board_squares[first_square] == board.board_squares[max_idx / 2] && 
+                board.board_squares[max_idx / 2] == board.board_squares[max_idx - first_square];
         }
 
         bool is_win() { // Possible winning moves listed here.
@@ -37,25 +38,27 @@ class Game {
             return count == 9 && !is_win();
         };
 
-        int player_move(int count, Player& player) {
+        bool player_move(int count, Player& player) {
             player.make_move(board);
             if (is_win()) { // check for winning move
                 std::cout << "\n" << player.get_shape() << " Wins!\n";
-                return 0;
+                return true;
             } else if (is_draw(count)) {
                 std::cout << "\nDraw!\n";
-                return 0;
+                return true;
             }
-            return 1;
+            return 0;
         };
 
     public:
         Game(Board& game_board, HumanPlayer& human_player, ComputerPlayer& computer_player) : board(game_board), human(human_player), computer(computer_player) {};
 
         void play_game(int move_counter) {
-            while (!is_win()) { // while not a winning move
-                player_move(move_counter, computer);
-                player_move(move_counter, human);
+            bool game_over = false;
+            while (!game_over) { // while not a winning move
+                game_over = player_move(move_counter, computer);
+                if (game_over) {break;}
+                game_over = player_move(move_counter, human);
             }
         }
 };
