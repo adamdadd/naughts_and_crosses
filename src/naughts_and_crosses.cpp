@@ -29,27 +29,23 @@ class Game {
         };
 
         bool is_draw(int count) {
-                for (int i=0; i<9; i += 1) {
-                    if (((board.board_squares[i] == "X") || (board.board_squares[i] == "O"))) {
-                        count += 1;
-                    }
+            for (int i=0; i<9; i += 1) {
+                if (((board.board_squares[i] == "X") || (board.board_squares[i] == "O"))) {
+                    count += 1;
                 }
-                if ((count == 9) && (!is_win())) {
-                    return true;
-                } else {
-                    return false;
-                }
+            }
+            return count == 9 && !is_win();
         };
 
         int player_move(int count, Player& player) {
-                player.make_move(board);
-                if (is_win()) { // check for winning move
-                    std::cout << "\n" << player.get_shape() << " Wins!\n";
-                    return 0;
-                } else if (is_draw(count)) {
-                    std::cout << "\nDraw!\n";
-                    return 0;
-                }
+            player.make_move(board);
+            if (is_win()) { // check for winning move
+                std::cout << "\n" << player.get_shape() << " Wins!\n";
+                return 0;
+            } else if (is_draw(count)) {
+                std::cout << "\nDraw!\n";
+                return 0;
+            }
             return 1;
         };
 
