@@ -6,35 +6,35 @@ class Game {
     ComputerPlayer& computer;
 
     private:
-        bool isloss() { // Possible winning moves listed here.
-            if (board.board_squares[0] == board.board_squares[1] && board.board_squares[1] == board.board_squares[2]) {
-                return false;
-            } else if (board.board_squares[3] == board.board_squares[4] && board.board_squares[4] == board.board_squares[5]) {
-                return false;
-            } else if (board.board_squares[6] == board.board_squares[7] && board.board_squares[7] == board.board_squares[8]) {
-                return false;
-            } else if (board.board_squares[0] == board.board_squares[4] && board.board_squares[4] == board.board_squares[8]) {
-                return false;
-            } else if (board.board_squares[2] == board.board_squares[4] && board.board_squares[4] == board.board_squares[6]) {
-                return false;
-            } else if (board.board_squares[0] == board.board_squares[3] && board.board_squares[3] == board.board_squares[6]) {
-                return false;
-            } else if (board.board_squares[1] == board.board_squares[4] && board.board_squares[4] == board.board_squares[7]) {
-                return false;
-            } else if (board.board_squares[2] == board.board_squares[5] && board.board_squares[5] == board.board_squares[8]) {
-                return false;
-            } else {
-                return true;
-            }
+        bool is_row_win(int first_square) {
+            return board.board_squares[first_square] == board.board_squares[first_square+1] && 
+                board.board_squares[first_square+1] == board.board_squares[first_square+2]; 
         };
 
-        bool isdraw(int count) {
+        bool is_col_win(int first_square) {
+            return board.board_squares[first_square] == board.board_squares[first_square+3] &&
+                board.board_squares[first_square+3] == board.board_squares[first_square+6];
+        }
+
+        bool is_diag_win(int first_square) {
+            return board.board_squares[first_square] == board.board_squares[sizeof(board.board_squares) / 2] && 
+                board.board_squares[sizeof(board.board_squares) / 2] == board.board_squares[sizeof(board.board_squares) - first_square];
+        }
+
+        bool is_win() { // Possible winning moves listed here.
+            bool is_rows = is_row_win(0) || is_row_win(3) || is_row_win(6);
+            bool is_cols = is_col_win(0) || is_col_win(1) || is_col_win(2);
+            bool is_diag = is_diag_win(0) || is_diag_win(2);
+            return is_rows || is_cols || is_diag;
+        };
+
+        bool is_draw(int count) {
                 for (int i=0; i<9; i += 1) {
                     if (((board.board_squares[i] == "X") || (board.board_squares[i] == "O"))) {
                         count += 1;
                     }
                 }
-                if ((count == 9) && (isloss())) {
+                if ((count == 9) && (!is_win())) {
                     return true;
                 } else {
                     return false;
@@ -43,10 +43,10 @@ class Game {
 
         int player_move(int count, Player& player) {
                 player.make_move(board);
-                if (!isloss()) { // check for winning move
+                if (is_win()) { // check for winning move
                     std::cout << "\n" << player.get_shape() << " Wins!\n";
                     return 0;
-                } else if (isdraw(count)) {
+                } else if (is_draw(count)) {
                     std::cout << "\nDraw!\n";
                     return 0;
                 }
@@ -57,7 +57,7 @@ class Game {
         Game(Board& game_board, HumanPlayer& human_player, ComputerPlayer& computer_player) : board(game_board), human(human_player), computer(computer_player) {};
 
         void play_game(int move_counter) {
-            while (isloss()) { // while not a winning move
+            while (!is_win()) { // while not a winning move
                 player_move(move_counter, computer);
                 player_move(move_counter, human);
             }
