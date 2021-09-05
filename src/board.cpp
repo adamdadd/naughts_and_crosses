@@ -2,23 +2,34 @@
 
 class Board {
     public:
-        std::vector<std::string> board_squares = {"1","2","3","4","5","6","7","8","9"};
+        std::vector<std::vector<std::string>> board_squares;
+
+        Board(int size) {
+            for (int r = 0; r < size; r++) {
+                std::vector<std::string> row;
+                for (int c = 0; c < size; c++) {
+                    row.push_back(std::to_string(r) + std::to_string(c));
+                }
+                board_squares.push_back(row);
+            }
+        }
 
         const void draw_board() {
-            std::cout << "\n" << board_squares[0] << " | " << board_squares[1] << " | " << board_squares[2] << "\n";   // OUTPUT:      [1][2][3]
-            std::cout << "----------" << "\n";
-            std::cout << board_squares[3] << " | " << board_squares[4] << " | " << board_squares[5] << "\n";   //              [4][5][6]
-            std::cout << "----------" << "\n";
-            std::cout << board_squares[6] << " | " << board_squares[7] << " | " << board_squares[8] << "\n\n";   //              [7][8][9]
+            std::cout << "\n";
+            for (int i = 0; i < board_squares.size(); i++) {
+                for (int j = 0; j < board_squares[i].size(); j++) {
+                    std::cout << "| " << board_squares[i][j] << " |";
+                }
+            std::cout << "\n\n";
+            }
         }
 
-        void set_marker(int square_idx, std::string marker) {
-            board_squares[square_idx] = marker;
+        void set_marker(int choice_x, int choice_y, std::string marker) {
+            board_squares[choice_y][choice_x] = marker;
         }
 
-        bool is_free_square(int choice) {
-           if ((board_squares[choice] == "X") || (board_squares[choice] == "O")) {
-               std::cout << "\nAlready Occupied!\n";
+        bool is_free_square(int choice_x, int choice_y) {
+           if ((board_squares[choice_y][choice_x] == "XX") || (board_squares[choice_y][choice_x] == "OO")) {
                std::cin.clear();
                // empty buffer
             //    std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
@@ -26,5 +37,5 @@ class Board {
            } else {
                return true;
            }
-        };
+        }
 };

@@ -5,23 +5,26 @@ class Player {
     protected:
         std::string shape;
 
+        struct XYChoice { int row; int col; };
+
     private:
-        virtual int get_move() = 0;
+        virtual XYChoice get_move() = 0;
 
     public:
-        Player(std::string marker) : shape(marker) { };
+        Player(std::string marker) : shape(marker) {}
 
-        virtual ~Player() {};
+        virtual ~Player() {}
 
-        std::string get_shape() { return shape; };
+        std::string get_shape() { return shape; }
 
         void make_move(Board& board) {
             // Now for the enter validation and draw for each choice
-            int choice = get_move();
-            if (0 < choice && choice < 10) {
-                if (board.is_free_square(choice-1)) {
-                    board.set_marker(choice-1, shape);
+            XYChoice choice = get_move();
+            if (0 <= choice.row && 0 <= choice.col && choice.row < board.board_squares.size() && choice.col < board.board_squares.size()) {
+                if (board.is_free_square(choice.col, choice.row)) {
+                    board.set_marker(choice.col, choice.row, shape);
                 } else {
+                    std::cout << "\nAlready Occupied!\n";
                     make_move(board);
                 } 
                 board.draw_board();
@@ -29,5 +32,5 @@ class Player {
                 std::cout << "ERROR: Not on the board, try again!\n";
                 make_move(board);
             }
-        };
+        }
 };

@@ -7,8 +7,8 @@
 #include "human_player.cpp"
 #include "computer_player.cpp"
 
-void play_game(int counter);
+void play_game();
 bool isloss();
-bool isdraw(int counter);
+bool isdraw();
 
 
